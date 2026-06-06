@@ -2,8 +2,8 @@
   margin: 0;
   min-height: 100vh;
   font-family: Inter, system-ui, sans-serif;
-  background: #0f172a;
-  color: #e5e7eb;
+  background: #f8fafc;
+  color: #111827;
 }
 
 #pageWrapper {
@@ -14,28 +14,29 @@
 .sidebar {
   width: 260px;
   min-height: 100vh;
-  border-right: 1px solid rgba(255,255,255,.08);
+  border-right: 1px solid rgba(15, 23, 42, 0.08);
+  background: #ffffff;
 }
 
 .sidebar .nav-link {
-  color: #e5e7eb;
+  color: #111827;
   border-radius: .5rem;
 }
 
 .sidebar .nav-link:hover,
 .sidebar .nav-link.active {
   background: rgba(99, 102, 241, 0.18);
-  color: #ffffff;
+  color: #111827;
 }
 
 .content {
   flex: 1;
-  background: #111827;
+  background: #eef2ff;
 }
 
 .card {
-  background: #1f2937;
-  border: none;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .card-metric {
@@ -52,11 +53,11 @@
 }
 
 .table {
-  color: #e5e7eb;
+  color: #111827;
 }
 
 .table thead {
-  background: #111827;
+  background: #e2e8f0;
 }
 
 .table tbody tr:hover {

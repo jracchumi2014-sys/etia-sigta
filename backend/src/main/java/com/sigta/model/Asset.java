@@ -1,4 +1,4 @@
-﻿package com.sigta.model;
+package com.sigta.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

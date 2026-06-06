@@ -1,4 +1,4 @@
-﻿package com.sigta.controller;
+package com.sigta.controller;
 
 import com.sigta.model.Asset;
 import com.sigta.repository.AssetRepository;

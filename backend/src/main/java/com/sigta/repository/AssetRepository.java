@@ -1,4 +1,4 @@
-﻿package com.sigta.repository;
+package com.sigta.repository;
 
 import com.sigta.model.Asset;
 import org.springframework.data.jpa.repository.JpaRepository;
