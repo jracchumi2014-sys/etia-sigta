@@ -37,9 +37,9 @@
         <li class="nav-item mb-2"><a class="nav-link" href="#loans">Préstamos</a></li>
         <li class="nav-item mb-2"><a class="nav-link" href="#traceability">Trazabilidad</a></li>
         <li class="nav-item mb-2"><a class="nav-link" href="#maintenance">Mantenimiento</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="#security">Seguridad</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="#users">Usuarios</a></li>
-        <li class="nav-item mb-2"><a class="nav-link" href="#reports">Reportes</a></li>
+        <li class="nav-item mb-2 admin-only d-none"><a class="nav-link" href="#security">Seguridad</a></li>
+        <li class="nav-item mb-2 admin-only d-none"><a class="nav-link" href="#users">Usuarios</a></li>
+        <li class="nav-item mb-2 admin-only d-none"><a class="nav-link" href="#reports">Reportes</a></li>
         <li class="nav-item mb-2"><a class="nav-link" href="#alerts">Alertas</a></li>
       </ul>
     </nav>
@@ -276,6 +276,34 @@
         </div>
       </section>
     </main>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const token = localStorage.getItem('sigta_token');
+          const roles = JSON.parse(localStorage.getItem('sigta_roles') || '[]');
+          const authButton = document.getElementById('authButton');
+
+          if (token) {
+            authButton.textContent = 'Cerrar sesión';
+            authButton.classList.remove('btn-primary');
+            authButton.classList.add('btn-outline-secondary');
+            authButton.addEventListener('click', () => {
+              localStorage.removeItem('sigta_token');
+              localStorage.removeItem('sigta_roles');
+              localStorage.removeItem('sigta_user');
+              window.location.replace('login.html');
+            });
+
+            const isAdmin = roles.some(r => r === 'ROLE_ADMIN' || r === 'ADMIN');
+            document.querySelectorAll('.admin-only').forEach(el => {
+              if (isAdmin) el.classList.remove('d-none');
+              else el.classList.add('d-none');
+            });
+          } else {
+            authButton.textContent = 'Iniciar sesión';
+            authButton.addEventListener('click', () => window.location.replace('login.html'));
+          }
+        });
+      </script>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

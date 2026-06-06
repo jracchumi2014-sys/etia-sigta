@@ -25,6 +25,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await response.json();
       localStorage.setItem('sigta_token', data.token);
+      // store roles/authorities for UI role checks
+      try {
+        const authorities = data.authorities || data.roles || [];
+        const roles = authorities.map(a => (typeof a === 'string' ? a : (a.authority || a.role || ''))).filter(Boolean);
+        localStorage.setItem('sigta_roles', JSON.stringify(roles));
+      } catch (e) {
+        localStorage.setItem('sigta_roles', JSON.stringify([]));
+      }
+      localStorage.setItem('sigta_user', data.username || '');
       window.location.href = 'index.html';
     } catch (error) {
       loginMessage.textContent = 'No se pudo conectar con el backend.';
