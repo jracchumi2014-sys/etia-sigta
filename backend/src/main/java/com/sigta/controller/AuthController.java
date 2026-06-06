@@ -34,9 +34,15 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication.getName());
-
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        // build CSV of roles
+        String rolesCsv = userDetails.getAuthorities().stream()
+            .map(Object::toString)
+            .reduce((a, b) -> a + "," + b)
+            .orElse("");
+
+        String jwt = jwtUtils.generateJwtToken(userDetails.getUsername(), rolesCsv);
+
         return ResponseEntity.ok(new AuthenticationResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
     }
 }

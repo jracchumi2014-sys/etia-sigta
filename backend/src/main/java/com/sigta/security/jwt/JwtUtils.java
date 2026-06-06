@@ -21,13 +21,18 @@ public class JwtUtils {
     @Value("${jwt.expiration-ms}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(String username) {
+    public String generateJwtToken(String username, String rolesCsv) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("roles", rolesCsv)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String generateJwtToken(String username) {
+        return generateJwtToken(username, "");
     }
 
     public String getUserNameFromJwtToken(String token) {
@@ -37,6 +42,16 @@ public class JwtUtils {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
+    }
+
+    public String getRolesFromJwtToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        Object roles = claims.get("roles");
+        return roles == null ? "" : roles.toString();
     }
 
     public boolean validateJwtToken(String authToken) {

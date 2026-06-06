@@ -24,11 +24,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const data = await response.json();
-      localStorage.setItem('sigta_token', data.token);
-      // store roles/authorities for UI role checks
+      const token = data.token;
+      localStorage.setItem('sigta_token', token);
+      // store roles/authorities for UI role checks: prefer response, fallback to JWT claim
       try {
-        const authorities = data.authorities || data.roles || [];
-        const roles = authorities.map(a => (typeof a === 'string' ? a : (a.authority || a.role || ''))).filter(Boolean);
+        let authorities = data.authorities || data.roles || [];
+        let roles = [];
+        if (authorities && authorities.length) {
+          roles = authorities.map(a => (typeof a === 'string' ? a : (a.authority || a.role || ''))).filter(Boolean);
+        } else if (token) {
+          // decode JWT payload (base64url)
+          try {
+            const payload = token.split('.')[1];
+            const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            const obj = JSON.parse(jsonPayload);
+            if (obj.roles) {
+              // roles may be CSV or array
+              if (typeof obj.roles === 'string') {
+                roles = obj.roles.split(',').map(s => s.trim()).filter(Boolean);
+              } else if (Array.isArray(obj.roles)) {
+                roles = obj.roles.map(r => (typeof r === 'string' ? r : (r.authority || r.role || ''))).filter(Boolean);
+              }
+            }
+          } catch (e) {
+            console.warn('Could not parse roles from JWT', e);
+          }
+        }
         localStorage.setItem('sigta_roles', JSON.stringify(roles));
       } catch (e) {
         localStorage.setItem('sigta_roles', JSON.stringify([]));
