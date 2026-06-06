@@ -1,0 +1,15 @@
+{
+  "name": "sigta-server",
+  "version": "1.0.0",
+  "description": "Servidor local para SIGTA",
+  "main": "sigtaserver.js",
+  "scripts": {
+    "start": "node sigtaserver.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18 <26"
+  }
+}

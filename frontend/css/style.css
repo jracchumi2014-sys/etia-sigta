@@ -1,0 +1,79 @@
+﻿body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+#pageWrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  min-height: 100vh;
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar .nav-link {
+  color: #e5e7eb;
+  border-radius: .5rem;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background: rgba(99, 102, 241, 0.18);
+  color: #ffffff;
+}
+
+.content {
+  flex: 1;
+  background: #111827;
+}
+
+.card {
+  background: #1f2937;
+  border: none;
+}
+
+.card-metric {
+  border-left: 4px solid #6366f1;
+}
+
+.metric-value {
+  font-size: 2.3rem;
+  font-weight: 700;
+}
+
+.section-header h2 {
+  margin-bottom: .25rem;
+}
+
+.table {
+  color: #e5e7eb;
+}
+
+.table thead {
+  background: #111827;
+}
+
+.table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.card-status {
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+@media (max-width: 991px) {
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  #pageWrapper {
+    flex-direction: column;
+  }
+}
